@@ -16,6 +16,8 @@ class EditAction extends Action
 
     protected ?Closure $mutateRecordDataUsing = null;
 
+    protected ?Closure $mutateFormDataBeforeUpdate = null;
+
     public static function getDefaultName(): ?string
     {
         return 'edit';
@@ -51,6 +53,10 @@ class EditAction extends Action
 
         $this->action(function (): void {
             $this->process(function (array $data, Model $record, Table $table) {
+                if ($this->mutateFormDataBeforeUpdate) {
+                    $data = $this->evaluate($this->mutateFormDataBeforeUpdate, ['data' => $data]);
+                }
+
                 $relationship = $table->getRelationship();
 
                 $translatableContentDriver = $table->makeTranslatableContentDriver();
@@ -88,5 +94,10 @@ class EditAction extends Action
         $this->mutateRecordDataUsing = $callback;
 
         return $this;
+    }
+
+    protected function mutateFormDataBeforeUpdate(?Closure $callback): void
+    {
+        $this->mutateFormDataBeforeUpdate = $callback;
     }
 }
