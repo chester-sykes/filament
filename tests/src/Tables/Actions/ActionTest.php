@@ -1,5 +1,6 @@
 <?php
 
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\AttachAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tests\Models\Post;
@@ -60,6 +61,13 @@ it('can set default action data when mounted', function () {
         ->assertTableActionDataSet(function (array $data): bool {
             return $data['foo'] === 'bar';
         });
+});
+
+it('can assert that a form field exists with a given configuration on a mounted table action', function () {
+    livewire(PostsTable::class)
+        ->mountTableAction('data')
+        ->assertTableActionFormFieldExists('payload')
+        ->assertTableActionFormFieldExists('payload', fn (TextInput $field) => $field->isRequired());
 });
 
 it('can call an action with arguments', function () {

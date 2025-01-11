@@ -5,6 +5,7 @@ namespace Filament\Tables\Testing;
 use Closure;
 use Filament\Actions\Contracts\HasRecord;
 use Filament\Actions\Testing\TestsActions as BaseTestsActions;
+use Filament\Forms\Components\Field;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Model;
@@ -95,6 +96,33 @@ class TestsActions
                 foreach (Arr::dot($state, prepend: "mountedTableActionsData.{$mountedTableActionIndex}.") as $key => $value) {
                     $this->assertSet($key, $value);
                 }
+            }
+
+            return $this;
+        };
+    }
+
+    public function assertTableActionFormFieldExists(): Closure
+    {
+        return function (string $fieldName, ?Closure $checkFieldUsing = null): static {
+            /** @var ?Field $field */
+            $field = $this->instance()->getMountedTableActionForm()->getFlatFields(withHidden: true)[$fieldName] ?? null;
+
+            $tableActionName = $this->instance()->getMountedTableAction()->getName();
+
+            $livewireClass = $this->instance()::class;
+
+            Assert::assertInstanceOf(
+                Field::class,
+                $field,
+                "Failed asserting that a field with the name [{$fieldName}] exists on the form of a table action with the name [{$tableActionName}] on the [{$livewireClass}] component."
+            );
+
+            if ($checkFieldUsing) {
+                Assert::assertTrue(
+                    $checkFieldUsing($field),
+                    "Failed asserting that a field with the name [{$fieldName}] and provided configuration exists on the form of a table action with the name [{$tableActionName}] on the [{$livewireClass}] component."
+                );
             }
 
             return $this;

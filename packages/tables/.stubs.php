@@ -15,6 +15,8 @@ namespace Livewire\Features\SupportTesting {
 
         public function assertTableActionDataSet(array | Closure $state): static {}
 
+        public function assertTableActionFormFieldExists(string $fieldName, ?Closure $checkFieldUsing = null): static {}
+
         public function callTableAction(string | array $name, $record = null, array $data = [], array $arguments = []): static {}
 
         public function callTableColumnAction(string $name, $record = null): static {}
