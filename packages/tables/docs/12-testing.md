@@ -550,6 +550,38 @@ it('can automatically generate a slug from the title without any spaces', functi
         });
 });
 ```
+### Form field existence
+
+To ensure that a form field exists on a mounted table action form, you can use the `assertTableActionFormFieldExists()` method:
+
+```php
+use function Pest\Livewire\livewire;
+
+it('has a slug field', function () {
+    $post = Post::factory()->create();
+    
+    livewire(PostsTable::class)
+        ->mountTableAction(EditAction::class, $post)
+        ->assertTableActionFormFieldExists('slug');
+});
+```
+
+You may pass a function as an additional argument in order to assert that a form field passes a given "truth test". This is useful for asserting that a form field has a specific configuration:
+
+```php
+use Filament\Forms\Components\TextInput;
+use function Pest\Livewire\livewire;
+
+it('has a slug field', function () {    
+    $post = Post::factory()->create();
+    
+    livewire(PostsTable::class)
+        ->mountTableAction(EditAction::class, $post)
+        ->assertTableActionFormFieldExists('slug', function (TextInput $slug): bool {
+            return $slug->isRequired();
+        });
+});
+```
 
 ### Action state
 
