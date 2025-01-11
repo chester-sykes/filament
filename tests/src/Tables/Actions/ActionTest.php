@@ -70,6 +70,12 @@ it('can assert that a form field exists with a given configuration on a mounted 
         ->assertTableActionFormFieldExists('payload', fn (TextInput $field) => $field->isRequired());
 });
 
+it('can assert that a field doesnt exists on a mounted table action form', function () {
+    livewire(PostsTable::class)
+        ->mountTableAction('data')
+        ->assertTableActionFormFieldDoesNotExist('non_existent_field');
+});
+
 it('can call an action with arguments', function () {
     livewire(PostsTable::class)
         ->callTableAction('arguments', arguments: [

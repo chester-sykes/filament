@@ -129,6 +129,25 @@ class TestsActions
         };
     }
 
+    public function assertTableActionFormFieldDoesNotExist(): Closure
+    {
+        return function (string $fieldName): static {
+            $fields = $this->instance()->getMountedTableActionForm()->getFlatFields(withHidden: false);
+            $tableActionName = $this->instance()->getMountedTableAction()->getName();
+
+            $livewireClass = $this->instance()::class;
+
+            Assert::assertArrayNotHasKey(
+                $fieldName,
+                $fields,
+                "Failed asserting that a field with the name [{$fieldName}] does not exists on the form of a table action named [{$tableActionName}] on the [{$livewireClass}] component."
+            );
+
+            return $this;
+        };
+    }
+
+
     public function callTableAction(): Closure
     {
         return function (string | array $name, $record = null, array $data = [], array $arguments = []): static {

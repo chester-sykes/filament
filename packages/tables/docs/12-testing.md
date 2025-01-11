@@ -583,6 +583,20 @@ it('has a slug field', function () {
 });
 ```
 
+To assert that a form field does not exist on a mounted table action form, you can use the `assertTableActionFormFieldDoesNotExist()` method:
+
+```php
+use function Pest\Livewire\livewire;
+
+it('does not have a conditional field', function () {
+    $post = Post::factory()->create();
+    
+    livewire(PostsTable::class)
+        ->mountTableAction(EditAction::class, $post)
+        ->assertTableActionFormFieldDoesNotExist('no-such-field');
+});
+```
+
 ### Action state
 
 To ensure that an action or bulk action exists or doesn't in a table, you can use the `assertTableActionExists()` / `assertTableActionDoesNotExist()` or  `assertTableBulkActionExists()` / `assertTableBulkActionDoesNotExist()` method:
