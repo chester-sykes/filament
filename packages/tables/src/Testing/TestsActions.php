@@ -115,13 +115,13 @@ class TestsActions
             Assert::assertInstanceOf(
                 Field::class,
                 $field,
-                "Failed asserting that a field with the name [{$fieldName}] exists on the form of a table action with the name [{$tableActionName}] on the [{$livewireClass}] component."
+                "Failed asserting that a field with the name [{$fieldName}] exists on the form of a table action named [{$tableActionName}] on the [{$livewireClass}] component."
             );
 
             if ($checkFieldUsing) {
                 Assert::assertTrue(
                     $checkFieldUsing($field),
-                    "Failed asserting that a field with the name [{$fieldName}] and provided configuration exists on the form of a table action with the name [{$tableActionName}] on the [{$livewireClass}] component."
+                    "Failed asserting that a field with the name [{$fieldName}] and provided configuration exists on the form of a table action named [{$tableActionName}] on the [{$livewireClass}] component."
                 );
             }
 
