@@ -147,7 +147,6 @@ class TestsActions
         };
     }
 
-
     public function callTableAction(): Closure
     {
         return function (string | array $name, $record = null, array $data = [], array $arguments = []): static {
